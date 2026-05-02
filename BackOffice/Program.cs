@@ -11,15 +11,27 @@ var channel = await connection.CreateChannelAsync();
 
 await channel.QueueDeclareAsync("backofficeQueue", durable: true, false, false);
 
-await channel.QueueBindAsync("backofficeQueue", "webappExchange", "tour.*");
+var headers = new Dictionary<string, object>
+{
+    {"subject", "tour"},
+    {"action", "booked"},
+    {"x-match", "any"}
+};
+await channel.QueueBindAsync("backofficeQueue", "webappExchange", routingKey: "", headers);
 
 var consumer = new AsyncEventingBasicConsumer(channel);
-consumer.ReceivedAsync += async (sender, eventArgs)=>
+consumer.ReceivedAsync += async(sender, eventArgs) =>
 {
     var msg = System.Text.Encoding.UTF8.GetString(eventArgs.Body.ToArray());
-    Console.WriteLine($"{eventArgs.RoutingKey}: {msg}");
-
+    var subject = System.Text.Encoding.UTF8.GetString(eventArgs.BasicProperties.Headers["subject"] as byte[]);
+    var action = System.Text.Encoding.UTF8.GetString(eventArgs.BasicProperties.Headers["action"] as byte[]);
+    
+    Console.WriteLine($"{subject} : {action} : {msg}");
 };
+
+
+
+
 
 await channel.BasicConsumeAsync("backofficeQueue", true, consumer);
 

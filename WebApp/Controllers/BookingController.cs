@@ -20,7 +20,13 @@ namespace ExploreCalifornia.WebApp.Controllers
 
             var message = $"{tourname};{name};{email}";
             
-            await SendMessage("tour.booked",message);
+            var headers = new Dictionary<string, object>
+            {
+                {"action", "booked"},
+                {"subject", "tour"}
+            };
+
+            await SendMessage(headers,message);
             return Redirect($"/BookingConfirmed?tourname={tourname}&name={name}&email={email}");
         }
 
@@ -33,15 +39,20 @@ namespace ExploreCalifornia.WebApp.Controllers
             var email = Request.Form["email"];
             var cancelReason = Request.Form["reason"];
 
+            var headers = new Dictionary<string, object>
+            {
+                {"action", "cancelled"},
+                {"subject", "tour"}
+            };
             // Send cancel message here
             var message = $"{tourname};{name};{email};{cancelReason}";
-            await SendMessage("tour.cancelled", message);
+            await SendMessage(headers, message);
 
 
             return Redirect($"/BookingCanceled?tourname={tourname}&name={name}");
         }
 
-        private async Task SendMessage(string routingKey, string message)
+        private async Task SendMessage(IDictionary<string, object> headers, string message)
         {
             var tourname = Request.Form["tourname"];
             var name = Request.Form["name"];
@@ -56,7 +67,8 @@ namespace ExploreCalifornia.WebApp.Controllers
             
             var bytes = Encoding.UTF8.GetBytes(message);
             var props = new BasicProperties();
-            await channel.BasicPublishAsync("webappExchange", routingKey, false, props, bytes);
+            props.Headers = headers;
+            await channel.BasicPublishAsync("webappExchange", "", false, props, bytes);
             await channel.CloseAsync();
             await connection.CloseAsync();
             
