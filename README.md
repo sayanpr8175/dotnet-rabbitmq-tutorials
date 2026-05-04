@@ -1,48 +1,28 @@
 # Learning RabbitMQ: Efficient Message Queuing
-This is the repository for the LinkedIn Learning course `Learning RabbitMQ: Efficient Message Queuing`. The full course is available from [LinkedIn Learning][lil-course-url].
 
-![lil-thumbnail-url]
+This repository contains my notes, exercises, and practice code from the LinkedIn Learning course **"Learning RabbitMQ: Efficient Message Queuing"** by Peter Morlion. It serves as a personal reference for building message-based systems with RabbitMQ.
 
-## Course Description
+ 
+Successfully completed the course.
+ 
+**[View My Certificate](https://www.linkedin.com/learning/certificates/e7d9723d1fa72890df787c8fc17825a9d036e67cdd18b0b5e7d268d71c37d119?trk=share_certificate)**
 
-_See the readme file in the main branch for updated instructions and information._
-## Instructions
-This repository has branches for each of the videos in the course. You can use the branch pop up menu in github to switch to a specific branch and take a look at the course at that stage, or you can add `/tree/BRANCH_NAME` to the URL to go to the branch you want to access.
+## Skills & Concepts Learned
 
-## Branches
-The branches are structured to correspond to the videos in the course. The naming convention is `CHAPTER#_MOVIE#`. As an example, the branch named `02_03` corresponds to the second chapter and the third video in that chapter. 
-Some branches will have a beginning and an end state. These are marked with the letters `b` for "beginning" and `e` for "end". The `b` branch contains the code as it is at the beginning of the movie. The `e` branch contains the code as it is at the end of the movie. The `main` branch holds the final state of the code when in the course.
+Understanding the difference between **RPC-style communication** and **message-based architecture**
+- Role of a **message broker** in decoupling services
+- Working with **AMQP 0-9-1**, the core protocol behind RabbitMQ
 
-When switching from one exercise files branch to the next after making changes to the files, you may get a message like this:
-
-    error: Your local changes to the following files would be overwritten by checkout:        [files]
-    Please commit your changes or stash them before you switch branches.
-    Aborting
-
-To resolve this issue:
-	
-    Add changes to git using this command: git add .
-	Commit changes using this command: git commit -m "some message"
-
-## Installing
-1. To use these exercise files, you must have the following installed:
-	- [list of requirements for course]
-2. Clone this repository into your local machine using the terminal (Mac), CMD (Windows), or a GUI tool like SourceTree.
-3. [Course-specific instructions]
-
-## Instructor
-
-Instructor name
-
-Instructor description
-
-                            
-
-Check out my other courses on [LinkedIn Learning](https://www.linkedin.com/learning/instructors/).
+Hands-on practice with all four exchange types and their routing behavior:
+ 
+| Exchange Type | Use Case |
+|---|---|
+| **Fanout** | Broadcast messages to all bound queues |
+| **Direct** | Route by exact match on routing key |
+| **Topic** | Route by pattern matching with wildcards |
+| **Headers** | Route based on message header attributes |
 
 
-[0]: # (Replace these placeholder URLs with actual course URLs)
-
-[lil-course-url]: https://www.linkedin.com/learning/
-[lil-thumbnail-url]: https://media.licdn.com/dms/image/v2/D4E0DAQG0eDHsyOSqTA/learning-public-crop_675_1200/B4EZVdqqdwHUAY-/0/1741033220778?e=2147483647&v=beta&t=FxUDo6FA8W8CiFROwqfZKL_mzQhYx9loYLfjN-LNjgA
-
+- Publishing messages to a RabbitMQ exchange
+- Consuming messages from a queue
+- Filtering messages using direct, topic, and headers exchanges
